@@ -1,9 +1,25 @@
-.vagrant
-/cookbooks
+/metadata.json
+
+# Test Kitchen
+/.kitchen/
+/.kitchen.local.yml
+
+# CTags files
+/tags
 
 # Bundler
-bin/*
-.bundle/*
+/Gemfile.lock
+/bin/
+/.bundle/
 
-.kitchen/
-.kitchen.local.yml
+# Berkshelf
+/Berksfile.lock
+/.vagrant/
+
+# Editor temp files
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
