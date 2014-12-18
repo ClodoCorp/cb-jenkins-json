@@ -47,6 +47,7 @@ node['jenkins-json']['slave'].each do |name, options|
       conf = @client.node.get_config(name)
       Chef::Log.info ("jenkins-json rewrite userId from anonymous to jenkins")
       conf = conf.sub(/<userId>anonymous<\/userId>/, "<userId>jenkins</userId>")
+      Chef::Log.info ("jenkins-json conf #{conf}")
       @client.node.post_config(name, conf)
 
     end
