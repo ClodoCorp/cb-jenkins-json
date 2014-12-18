@@ -23,7 +23,7 @@ end
 
 
 node['jenkins-json']['slave'].each do |name, options|
-  ruby_block "jenkins-json create slave #{name}" do
+  ruby_block "create_slave_#{name}" do
     block do
       require 'jenkins_api_client'
       @client = JenkinsApi::Client.new(server_url: "http://#{username}:#{password}@#{url}", :follow_redirects => true)
@@ -60,10 +60,10 @@ node['jenkins-json']['slave'].each do |name, options|
     action :nothing
   end
 
-  ruby_block "jenkins-json notify slave #{name}" do
+  ruby_block "notify_slave_#{name}" do
     block do
     end
-    notifies :create, 'ruby_block[jenkins-json create slave #{name}]', :delayed
+    notifies :create, 'ruby_block[create_slave_#{name}]', :delayed
   end
 
 end
