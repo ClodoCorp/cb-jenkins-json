@@ -10,6 +10,11 @@ node['jenkins-json']['slave'].each do |slave|
         require 'jenkins_api_client'
         @client = JenkinsApi::Client.new(server_url: "http://#{username}:#{password}@#{url}", :follow_redirects => true)
 
+        if name == 'master'
+          conf = @client.node.get_config(name)
+          Chef::Log.info ("CCCC #{conf}")
+          next
+        end
         begin
           @client.node.delete(name)
         rescue
