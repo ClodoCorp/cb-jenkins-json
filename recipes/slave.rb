@@ -63,7 +63,7 @@ node['jenkins-json']['slave'].each do |name, options|
   ruby_block "notify_slave_#{name}" do
     block do
     end
-    notifies :create, 'ruby_block[create_slave_#{name}]', :delayed
+    notifies :create, "ruby_block[create_slave_#{name}]", :delayed
   end
 
 end
