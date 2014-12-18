@@ -51,6 +51,7 @@ node['jenkins-json']['slave'].each do |name, options|
       end
 
       conf = @client.node.get_config(name)
+      Chef::Log.info ("jenkins-json #{name} conf #{conf}")
       @client.node.post_config(name, conf)
 
     end
