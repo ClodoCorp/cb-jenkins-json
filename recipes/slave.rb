@@ -39,6 +39,7 @@ ruby_block "jenkins-json reload server" do
   block do
     require 'jenkins_api_client'
     @client = JenkinsApi::Client.new(server_url: "http://#{username}:#{password}@#{url}", :follow_redirects => true)
+    @client.system.wait_for_ready
     @client.system.reload
     while true
       begin
