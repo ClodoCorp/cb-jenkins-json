@@ -49,6 +49,10 @@ node['jenkins-json']['slave'].each do |name, options|
         Chef::Log.info ("jenkins-json waiting for slave #{name}")
         sleep 3
       end
+
+      conf = @client.node.get_config(name)
+      @client.node.post_config(name, conf)
+
     end
   end
 end
