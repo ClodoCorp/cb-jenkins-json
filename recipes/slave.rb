@@ -21,8 +21,9 @@ ruby_block "jenkins-json waiting server" do
   end
 end
 
+
 node['jenkins-json']['slave'].each do |name, options|
-  ruby_block "jenkins-json node #{name}" do
+  ruby_block "jenkins-json create slave #{name}" do
     block do
       require 'jenkins_api_client'
       @client = JenkinsApi::Client.new(server_url: "http://#{username}:#{password}@#{url}", :follow_redirects => true)
@@ -56,5 +57,13 @@ node['jenkins-json']['slave'].each do |name, options|
       @client.node.post_config(name, conf)
 
     end
+    action :nothing
   end
+
+  ruby_block "jenkins-json notify slave #{name}" do
+    block do
+    end
+    notifies :create, 'ruby_block[jenkins-json create slave #{name}]', :delayed
+  end
+
 end
