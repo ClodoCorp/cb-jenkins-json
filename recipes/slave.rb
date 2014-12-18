@@ -3,30 +3,23 @@ url = node['jenkins']['http_proxy']['host_name']
 username = node['jenkins']['http_proxy']['basic_auth_username']
 password = node['jenkins']['http_proxy']['basic_auth_password']
 
-ruby_block "jenkins-json waiting server" do
-  block do
-    require 'jenkins_api_client'
-    @client = JenkinsApi::Client.new(server_url: "http://#{username}:#{password}@#{url}", :follow_redirects => true)
-    while true
-      begin
-        nodes = @client.node.list()
-        if nodes.length() > 0
-          break
-        end
-      rescue
-        Chef::Log.info ("jenkins-json waiting for master")
-        sleep 3
-      end
-    end
-  end
-end
-
-
 node['jenkins-json']['slave'].each do |name, options|
   ruby_block "create_slave_#{name}" do
     block do
       require 'jenkins_api_client'
       @client = JenkinsApi::Client.new(server_url: "http://#{username}:#{password}@#{url}", :follow_redirects => true)
+
+      while true
+        begin
+          nodes = @client.node.list()
+          if nodes.length() > 0
+            break
+          end
+        rescue
+          Chef::Log.info ("jenkins-json waiting for master")
+          sleep 3
+        end
+      end
 
       if name == 'master'
         conf = @client.node.get_config(name)
