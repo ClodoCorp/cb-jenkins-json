@@ -12,7 +12,8 @@ node['jenkins-json']['slave'].each do |slave|
 
         if name == 'master'
           conf = @client.node.get_config(name)
-          Chef::Log.info ("CCCC #{conf}")
+          conf = conf.sub(/<numExecutors>([0-9]+)<\/numExecutors>/, "<numExecutors>#{options['executors']}</numExecutors>")
+          @client.node.post_config(name, conf)
           next
         end
         begin
