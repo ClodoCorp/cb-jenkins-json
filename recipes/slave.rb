@@ -27,6 +27,11 @@ node['jenkins-json']['slave'].each do |name, options|
         @client.node.post_config(name, conf)
         next
       end
+
+      if options['status'] != 'enable'
+        next
+      end
+
       begin
         @client.node.delete(name)
       rescue
