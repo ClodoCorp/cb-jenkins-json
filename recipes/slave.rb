@@ -28,14 +28,14 @@ node['jenkins-json']['slave'].each do |name, options|
         next
       end
 
-      if options['status'] != 'enable'
-        next
-      end
-
       begin
         @client.node.delete(name)
       rescue
         Chef::Log.info ("jenkins-json unable to delete node #{name}")
+      end
+
+      if options['status'] != 'enable'
+        next
       end
 
       while @client.node.index(name).instance_of? Array
