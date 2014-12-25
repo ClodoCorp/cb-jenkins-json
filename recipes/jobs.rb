@@ -3,7 +3,7 @@ url = node['jenkins']['http_proxy']['host_name']
 username = node['jenkins']['http_proxy']['basic_auth_username']
 password = node['jenkins']['http_proxy']['basic_auth_password']
 
-unless node['jenkins-json']['jobs']['prune'].nil?
+if node['jenkins-json']['jobs']['prune']
 
   ruby_block "prune deleted jobs" do
     ruby_block "create_slave_#{name}" do
