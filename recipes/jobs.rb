@@ -3,7 +3,7 @@ url = node['jenkins']['http_proxy']['host_name']
 username = node['jenkins']['http_proxy']['basic_auth_username']
 password = node['jenkins']['http_proxy']['basic_auth_password']
 
-if node['jenkins-json']['jobs']['prune']
+if node['jenkins-json']['jobs']['prune'] && url
 
   ruby_block "prune deleted jobs" do
     block do
